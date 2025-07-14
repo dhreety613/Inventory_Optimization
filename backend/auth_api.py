@@ -90,3 +90,8 @@ async def store_report(request: Request, store_id: str):
         "table_html": table_html,
         "explanation_html": explanation_html
     })
+
+@app.get("/logout")
+async def logout(request: Request):
+    # Redirect user to login page
+    return RedirectResponse(url="/login", status_code=303)
