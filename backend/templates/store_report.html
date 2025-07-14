@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Report for {{store_id}}</title>
+  <style>
+    body{background:#e6f1e3;font-family:'Segoe UI',sans-serif;color:#1e3d32;padding:20px;text-align:center}
+    h2{font-size:28px;margin-bottom:20px}
+    table{width:80%;margin:auto;background:white;border-collapse:collapse;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);border-radius:12px;overflow:hidden;font-size:16px}
+    th,td{border:1px solid #b2d8c6;padding:12px;text-align:center}
+    th{background:#7fcdb8;color:white}
+    .btn{margin:20px auto;display:block;background:#008b8b;color:white;
+    padding:10px 20px;border:none;border-radius:8px;font-size:16px;cursor:pointer}
+    #explanationBox{display:none;width:80%;margin:20px auto;padding:20px;
+    background:white;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,0.1);
+    text-align:left;font-size:16px;line-height:1.6}
+  </style>
+</head>
+<body>
+  <h2>Report for {{store_id}}</h2>
+  <div>{{ table_html|safe }}</div>
+  <button class="btn" onclick="toggleExplain()">📋 Let me explain</button>
+  <div id="explanationBox">{{ explanation_html|safe }}</div>
+  <script>
+    function toggleExplain(){
+      const b=document.getElementById('explanationBox');
+      b.style.display=b.style.display==='block'?'none':'block';
+    }
+  </script>
+</body>
+</html>

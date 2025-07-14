@@ -1,0 +1,11 @@
+tensorflow==2.15.0
+keras-tuner==1.4.7
+pandas
+numpy
+scikit-learn
+psycopg2-binary
+python-dotenv
+tqdm
+requests
+sqlalchemy
+joblib

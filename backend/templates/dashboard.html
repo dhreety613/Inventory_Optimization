@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    body { background:#e6f1e3; font-family:'Segoe UI',sans-serif; color:#1e3d32; text-align:center; padding:20px; }
+    h1 { font-size:32px; margin-bottom:20px; }
+    .filters { margin-bottom:20px; }
+    select { padding:8px; border-radius:5px; margin:0 10px; font-size:16px; }
+    .tab { display:block; width:60%; margin:15px auto; background:#008b8b;
+           color:white; font-size:20px; padding:15px; border:none; border-radius:12px;
+           cursor:pointer; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <h1>Store Dashboard</h1>
+  <div class="filters">
+    <select id="geoFilter" onchange="apply()">
+      <option value="">All Geo</option>
+      {% for g in stores|map(attribute='geo')|unique if g %}
+        <option>{{ g }}</option>
+      {% endfor %}
+    </select>
+
+    <select id="religionFilter" onchange="apply()">
+      <option value="">All Religion</option>
+      {% for r in stores|map(attribute='religion')|unique if r %}
+        <option>{{ r }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div id="tabs">
+    {% for s in stores %}
+      <button class="tab"
+              data-geo="{{ s.geo }}"
+              data-religion="{{ s.religion }}"
+              onclick="location.href='/store_report/{{ s.store_id }}'">
+        {{ s.store_id }}
+      </button>
+    {% endfor %}
+  </div>
+
+  <script>
+    function apply(){
+      const geo = document.getElementById('geoFilter').value;
+      const rel = document.getElementById('religionFilter').value;
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(t => {
+        t.style.display = 
+          (!geo || t.dataset.geo === geo) && (!rel || t.dataset.religion === rel) 
+          ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

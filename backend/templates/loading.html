@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <style>
+        body { background: #d0e8d0; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .loader { margin: 20% auto; display: flex; justify-content: center; align-items: center; }
+        .dot {
+            width: 16px; height: 16px; margin: 0 5px;
+            background-color: #40e0d0;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+    </style>
+</head>
+<body>
+    <h2>Generating your dashboard, please wait...</h2>
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <script>
+        fetch('/start-processing', { method: 'POST' })
+            .then(response => {
+                if (response.redirected) {
+                    // backend finished processing & redirected
+                    window.location.href = response.url;
+                } else {
+                    alert("Failed to process. Please try again.");
+                }
+            })
+            .catch(err => alert("Network error: " + err));
+    </script>
+</body>
+</html>
