@@ -1,0 +1,14 @@
+GEMINI_API_KEY=AIzaSyChkmpInLBbHhsomq6HvClUJoLjGxT33QE
+
+
+# Source DB
+MYWHACKDB_NAME=mywhackdb
+MYWHACKDB_USER=myuser
+MYWHACKDB_PASSWORD=rafaelnadal
+MYWHACKDB_HOST=localhost
+
+# Target DB
+AUTODB_NAME=autodb
+AUTODB_USER=myuser
+AUTODB_PASSWORD=rafaelnadal
+AUTODB_HOST=localhost

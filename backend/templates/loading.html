@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loading...</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 15%;
+    }
+
+    h2 {
+      font-size: 28px; /* Increased from 24px */
+      margin-bottom: 40px;
+      color: #ffffff;
+    }
+
+    .progress-container {
+      width: 30%;
+      height: 6px;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto 12px;
+      box-shadow: 0 0 6px #333;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #ffffff;
+      border-radius: 8px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .percent-text {
+      font-size: 16px;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Generating your dashboard, please wait...</h2>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="percent-text" id="progressText">0%</div>
+
+  <script>
+    const bar = document.getElementById('progressBar');
+    const text = document.getElementById('progressText');
+
+    let percent = 0;
+    let interval = setInterval(() => {
+      if (percent < 90) {
+        percent++;
+        bar.style.width = percent + '%';
+        text.innerText = percent + '%';
+      } else {
+        clearInterval(interval);
+      }
+    }, 65); // slow build up to 90%
+
+    fetch('/start-processing', { method: 'POST' })
+      .then(response => {
+        if (response.redirected) {
+          let finalInterval = setInterval(() => {
+            if (percent < 100) {
+              percent++;
+              bar.style.width = percent + '%';
+              text.innerText = percent + '%';
+            } else {
+              clearInterval(finalInterval);
+              setTimeout(() => {
+                window.location.href = response.url;
+              }, 300);
+            }
+          }, 25);
+        } else {
+          alert("Failed to process. Please try again.");
+        }
+      })
+      .catch(err => alert("Network error: " + err));
+  </script>
+</body>
+</html>

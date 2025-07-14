@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    .filters {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    select {
+      background-color: #121212;
+      color: #ffffff;
+      padding: 10px 15px;
+      border: 1px solid #444;
+      border-radius: 10px;
+      font-size: 16px;
+      box-shadow: 0 0 8px rgba(100, 255, 100, 0.2);
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.66-.753-1.66H3.207c-.86 0-1.32 1.013-.753 1.66l4.793 5.48z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px 16px;
+      padding-right: 35px;
+    }
+
+    select:hover {
+      box-shadow: 0 0 12px rgba(100, 255, 100, 0.4);
+    }
+
+    .tab {
+      display: block;
+      width: 60%;
+      margin: 15px auto;
+      background: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+      color: #ffffff;
+      font-size: 18px;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(100, 255, 100, 0.3);
+    }
+
+    .tab:hover {
+      background: linear-gradient(145deg, #2d2d2d, #3a3a3a);
+      box-shadow: 0 0 14px rgba(150, 255, 150, 0.6);
+      transform: translateY(-2px);
+    }
+
+    option {
+      background-color: #111;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Store Dashboard</h1>
+
+  <div class="filters">
+    <select id="geoFilter" onchange="apply()">
+      <option value="">All Geo</option>
+      {% for g in stores|map(attribute='geo')|unique if g %}
+        <option>{{ g }}</option>
+      {% endfor %}
+    </select>
+
+    <select id="religionFilter" onchange="apply()">
+      <option value="">All Religion</option>
+      {% for r in stores|map(attribute='religion')|unique if r %}
+        <option>{{ r }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div id="tabs">
+    {% for s in stores %}
+      <button class="tab"
+              data-geo="{{ s.geo }}"
+              data-religion="{{ s.religion }}"
+              onclick="location.href='/store_report/{{ s.store_id }}'">
+        {{ s.store_id }}
+      </button>
+    {% endfor %}
+  </div>
+
+  <script>
+    function apply(){
+      const geo = document.getElementById('geoFilter').value;
+      const rel = document.getElementById('religionFilter').value;
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(t => {
+        t.style.display = 
+          (!geo || t.dataset.geo === geo) && (!rel || t.dataset.religion === rel) 
+          ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
