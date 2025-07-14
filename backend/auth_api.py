@@ -5,11 +5,14 @@ from fastapi.staticfiles import StaticFiles
 from supabase import create_client, Client
 import subprocess, os, markdown, re
 from dotenv import load_dotenv
-load_dotenv()
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 app = FastAPI()  # ✅ Only once!
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="backend/templates")
+app.mount("/static", StaticFiles(directory="backend/static"), name="static")
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
